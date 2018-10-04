@@ -1,29 +1,41 @@
-from flask import Flask, jsonify
+import flask
+# from flask import Flask, jsonify, request
+import numpy as np
+import tensorflow as tf
+from keras.models import load_model
+from model.sentiment import *
 
-app = Flask(__name__)
+app = flask.Flask(__name__)
 
-tasks = [
-    {
-        'id': 1,
-        'title': 'Buy groceries',
-        'description': 'Milk, Cheese, Pizza, Fruit, Tylenol', 
-        'done': False
-    },
-    {
-        'id': 2,
-        'title': 'Learn Python',
-        'description': 'Need to find a good Python tutorial on the web', 
-        'done': False
-    }
-]
+vocab, tokenizer, max_length, model = load_variabels()
+model._make_predict_function()
+graph = tf.get_default_graph()
+
 
 @app.route('/')
 def index():
     return "test"
 
-@app.route('/todo/api/v1.0/tasks', methods=['GET'])
-def get_tasks():
-    return jsonify({'tasks': tasks})
+# define a predict function as an endpoint 
+@app.route("/predict", methods=["GET","POST"])
+def predict():
+    data = {"success": False}
+    # get the request parameters
+    params = flask.request.json
+    if (params == None):
+        params = flask.request.args
+    # if parameters are found, echo the msg parameter 
+    if (params != None):
+        # text = 'menaker menyisir daerah sampai pelosok indonesia'
+        global graph 
+        with graph.as_default():
+            percent, conclusion = predict_sentiment(params.get("msg"), vocab, tokenizer, max_length, model)
+        # print(percent, conclusi)
+        data["percent"] = str(percent)
+        data["conclusi"] = conclusion
+    # return a response in json format 
+    return flask.jsonify(data)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
