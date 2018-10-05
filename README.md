@@ -10,3 +10,5 @@
 1. run aplikasi-env\Script\activate.bat
 1. run python app.py
 1. go to http://127.0.0.1:5000/
+
+python version 3.5.3
