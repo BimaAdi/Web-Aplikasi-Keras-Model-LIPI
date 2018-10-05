@@ -1,4 +1,5 @@
 import flask
+from flask import render_template, request, redirect, url_for
 from model.sentiment import *
 from seed.all_prediction_result import *
 
@@ -13,14 +14,17 @@ graph = tf.get_default_graph()
 
 @app.route('/')
 def index():
-    return flask.jsonify(prediction_result)
+    return render_template('check.html', data=prediction_result)
+    #return flask.jsonify(prediction_result)
+
 
 # define a predict function as an endpoint 
 @app.route("/predict", methods=["GET","POST"])
 def predict():
     data = {}
     # get the request parameters
-    params = flask.request.json
+    #params = flask.request.json
+    params = request.form
     if (params == None):
         params = flask.request.args
     if (params != None):
@@ -38,7 +42,8 @@ def predict():
         prediction_result.append(data)
 
     # return a response in json format 
-    return flask.jsonify(data)
+    #return flask.jsonify(data)
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':

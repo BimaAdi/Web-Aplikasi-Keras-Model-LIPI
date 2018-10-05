@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+	<div class="jumbotron">
+		<main role="main" class="inner cover">
+        	<h2 class="cover-heading">Sentimen Analisis</h2>
+        		<h3 class="lead">This is a Fine-grained sentiment analysis in which we analyze text and score at the Tweet and Sentence.</h3>
+        	<p class="lead">
+        		<form class="form-signin" method="POST" action="http://localhost:5000/predict">
+	        		<div class="form-group">
+	        			<label for="text" class="sr-only">Type your text here:</label>
+                <!-- <input type="text" name="text"> -->
+	        			<textarea class="form-control" name="text" rows="3"  placeholder="Type Your Text Here!" ></textarea>
+	        		</div>
+                <button class="btn btn-lg btn-secondary" type="submit"  value = "submit">Analisis</button></p>
+          		</form></p>
+    	</main>
+
+
+     </div>
+      <div class="container">
+       <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Text</th>
+        <th scope="col">Percentage</th>
+        <th scope="col">Sentimen</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in data %}
+      <tr>
+        <th scope="row">{{loop.index}}</th>
+        <td> {{ item["text"]}}</td>
+        <td>{{ item["percent"]}}</td>
+        <td>{{ item["conclusi"] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}
