@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+	<div class="jumbotron">
+		<main role="main" class="inner cover">
+        	<h2 class="cover-heading">Checking</h2>
+        		<h3 class="lead">This is a Fine-grained sentiment analysis in which we analyze text and score at the Tweet and Sentence.</h3>
+        	<p class="lead">
+        		<form class="form-signin" method="post" action="/senttext">
+	        		<div class="form-group">
+	        			<label for="thetext" class="sr-only">Type your text here:</label>
+	        			<textarea class="form-control" name="thetext" rows="3" id="thetext" placeholder="Type Your Text Here!" required=""></textarea>
+	        		</div>
+          			<button class="btn btn-lg btn-secondary" type="submit">Analisis</button></p>
+          		</form>
+    	</main>
+     </div>
+
+{% endblock %}
